@@ -3,12 +3,12 @@ import React, {Component} from 'react';
 import Items from './components/item/items'
 import AddItem from './components/addItem/addItem'
 import Total from './components/total/total'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 class App extends Component {
   state = {
     items: [
-      {id:1, product:'Pen', price:2},
-      {id:2, product:'Book', price:10}
+      {id:1, product:'Pen', price:2,quantity:1},
+      {id:2, product:'Book', price:10, quantity:1}
     ]
   }
 
@@ -20,6 +20,7 @@ class App extends Component {
   }
 
   addItem = (item) => {
+    console.log(item);
     this.state.items.length > 0 ? (
       item.id = this.state.items[this.state.items.length - 1].id + 1 
     ) : item.id = 1
@@ -28,15 +29,27 @@ class App extends Component {
     items.push(item)
     this.setState({items: items})
   }
+increaseQuantity=(id)=>{
+    let items = this.state.items
+    items[id-1].quantity++
+    this.setState({items: items})
+    console.log(items);
+  }
+  decreaseQuantity=(id)=>{
+    let items = this.state.items
+    items[id-1].quantity--
+    this.setState({items: items})
+    console.log(items);
+  }
 
   render() {
     return (
       <div className="container">
         <h1>Product List React App</h1>
         <div className="table">
-          <Items items={this.state.items} del={this.deleteItem}/>
+          <Items items={this.state.items} del={this.deleteItem} incquantity={this.increaseQuantity} decquantity={this.decreaseQuantity}/>
           <AddItem add={this.addItem}/>
-          <Total items={this.state.items}/>
+          <Total items={this.state.items} />
         </div>
       </div>
     )
